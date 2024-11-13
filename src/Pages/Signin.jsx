@@ -1,29 +1,34 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Signin() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(""); 
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignIn = (event) => {
     event.preventDefault();
-
-    // Simulate successful login and redirect
-    if (username === "user@example.com" && password === "password123") {
-      alert("Login successful!");
-      localStorage.setItem("token", "fake-jwt-token"); // Simulate storing a token
-      navigate("/submain"); // Redirect to submain page (adjust the route as needed)
-    } else {
-      alert("Login failed. Please check your credentials.");
-    }
+    axios
+      .post("http://localhost:3001/login", { email: username, password })
+      .then((result) => {
+        console.log(result);
+        if (result.data.message === "login successful") {
+          navigate("/homeIn");
+        } else {
+          alert("No user found");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("An error occurred during login."); 
+      });
   };
 
   return (
     <div className="bg-gray-900 text-gray-200 flex flex-col min-h-screen w-screen h-screen overflow-hidden">
       {/* Top Navigation Bar */}
       <nav className="bg-gray-800 p-4 shadow-lg flex justify-between items-center sticky top-0 z-50 w-full">
-        {/* Navigation Links on the Left Side */}
         <div className="flex items-center space-x-8">
           <a href="/" className="flex items-center space-x-1 text-gray-300 hover:text-blue-400">
             <i className="fa fa-home"></i><span>Home</span>
@@ -55,7 +60,7 @@ function Signin() {
                 id="username"
                 name="username"
                 placeholder="Email"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-black"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-gray-300 bg-gray-900"
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -68,7 +73,7 @@ function Signin() {
                 id="password"
                 name="password"
                 placeholder="Password"
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-black"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-gray-300 bg-gray-900"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -82,8 +87,13 @@ function Signin() {
             </button>
           </form>
           <p className="mt-4 text-center text-gray-400">
-            Don't have an account?
-            <a href="/signup" className="text-blue-600 hover:underline">Sign Up</a>
+            Don't have an account?{" "}
+            <a
+              onClick={() => navigate("/signup")}
+              className="text-blue-600 hover:underline cursor-pointer"
+            >
+              Sign Up
+            </a>
           </p>
         </div>
       </main>

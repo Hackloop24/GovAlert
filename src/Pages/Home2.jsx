@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';  
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 
-function Home() {
-  const reloadPage = (event) => {
-    event.preventDefault();
-    window.location.reload();
-    alert("You are now on the Home page/Main page");
+function Home2() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    alert("Logging out...");
+    navigate("/home");  // go to the Home page after logout
+    alert("Logged out Successfully");
   };
 
   return (
@@ -15,16 +15,12 @@ function Home() {
       {/* Top Navigation Bar */}
       <nav className="bg-gray-800 p-4 shadow-lg flex justify-between items-center w-full sticky top-0 z-50">
         <div className="flex items-center space-x-4">
-          <a
-            href="/home"
-            className="flex items-center space-x-1 text-gray-300 hover:text-blue-400"
-            onClick={reloadPage}
-          >
+          <a href="/home" className="flex items-center space-x-1 text-gray-300 hover:text-blue-400">
             <i className="fa fa-home"></i><span>Home</span>
           </a>
-          <Link to="/report" className="flex items-center space-x-1 text-gray-300 hover:text-blue-400">
+          <a href="/report" className="flex items-center space-x-1 text-gray-300 hover:text-blue-400">
             <i className="fa fa-flag"></i><span>Report</span>
-          </Link>
+          </a>
           <a href="#phone" className="flex items-center space-x-1 text-gray-300 hover:text-blue-400">
             <i className="fa fa-phone"></i><span>Contact</span>
           </a>
@@ -36,14 +32,13 @@ function Home() {
           </a>
         </div>
 
-        <div className="flex items-center space-x-4">
-          <a href="/login" className="text-blue-400 hover:text-blue-500">
-            Sign In
-          </a>
-          <a href="/signup" className="text-blue-400 hover:text-blue-500">
-            Sign Up
-          </a>
-        </div>
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="text-blue-400 hover:text-blue-500 px-4 py-2 rounded-lg border border-blue-400 hover:bg-gray-700 transition duration-300"
+        >
+          Logout
+        </button>
       </nav>
 
       {/* Website Header */}
@@ -71,7 +66,6 @@ function Home() {
               Submit reports about local issues, attach photos, and provide descriptions.
             </p>
           </a>
-
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300 flex flex-col items-center">
             <i className="fas fa-map-marker-alt text-blue-400 text-3xl mb-4"></i>
             <h3 className="text-xl font-semibold text-blue-300 mb-2">Map Issues</h3>
@@ -122,4 +116,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Home2;
