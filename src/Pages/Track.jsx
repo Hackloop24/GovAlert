@@ -6,7 +6,6 @@ const Track = () => {
   const [error, setError] = useState(null); // Error state for error handling
 
   useEffect(() => {
-    // Fetch the reports when the component mounts
     const fetchReports = async () => {
       try {
         const response = await axios.get('http://localhost:5002/api/reports'); // Adjust URL if needed
@@ -19,7 +18,6 @@ const Track = () => {
 
     fetchReports();
   }, []); // Empty dependency array to run only once when the component mounts
-
   return (
     <>
       {/* Top Navigation Bar - Full Width */}
